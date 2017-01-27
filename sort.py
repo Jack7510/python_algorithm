@@ -1,3 +1,4 @@
+# author: Jack Lee
 # samples of Python
 # sort algorithm with Python
 
