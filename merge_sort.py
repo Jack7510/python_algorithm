@@ -17,22 +17,21 @@ from random import randrange
 # para: sort listB as source, to listA, from Begin to End. 
 #       Begin is inclusive, End is exclusive
 #       
-def top_down_merge( listB, Begin, Mid, End, listA ):
+def top_down_merge(list_b, first, middle, last, list_a):
+    j = first
+    k = middle
 
-    j = Begin
-    k = Mid
-
-    #print( 'top_down_merge' , range( Begin, Mid, End ) )
-    for i in range( Begin, End ):
-    	# print( j, listB[j], k, listB[k] )
-        if j < Mid and ( k >= End or listB[j] < listB[k] ) :
-            listA[i] = listB[j]
-            j = j + 1
+    # print( 'top_down_merge' , range( Begin, Mid, End ) )
+    for i in range(first, last):
+        # print( j, listB[j], k, listB[k] )
+        if j < middle and (k >= last or list_b[j] < list_b[k]):
+            list_a[i] = list_b[j]
+            j += 1
         else:
-        	listA[i] = listB[k]
-        	k = k + 1
+            list_a[i] = list_b[k]
+            k += 1
 
-    #print( listA[ Begin : End ] )
+    # print( listA[ Begin : End ] )
     return
 
 
@@ -45,23 +44,22 @@ def top_down_merge( listB, Begin, Mid, End, listA ):
 # para: sort listB as source, to listA, from Begin to End. 
 #       Begin is inclusive, End is exclusive
 #       
-def top_down_split_merge( listB, Begin, End, listA ):
-    
+def top_down_split_merge(list_b, first, last, list_a):
     # if size == 1,  considering sorted
-    if (End - Begin) < 2 :
-    	#print( Begin, End )
-    	return 
+    if (last - first) < 2:
+        # print( Begin, End )
+        return
 
-    Middle = (Begin + End) // 2
-    #print( Begin, Middle, End )
+    middle = (first + last) // 2
+    # print( Begin, Middle, End )
     # recursively sort both runs from array A[] into B[]
-    top_down_split_merge( listA, Begin, Middle, listB )
-    top_down_split_merge( listA, Middle, End, listB )
+    top_down_split_merge(list_a, first, middle, list_b)
+    top_down_split_merge(list_a, middle, last, list_b)
 
     # merge the resulting runs from array B[] into A[]
-    top_down_merge( listB, Begin, Middle, End, listA )
+    top_down_merge(list_b, first, middle, last, list_a)
 
-    return 
+    return
 
 
 #
@@ -71,38 +69,38 @@ def top_down_split_merge( listB, Begin, End, listA ):
 #       
 # para: L - the list to be sorted
 #       
-def merge_sort( L ):
-    listA = L
+def merge_sort(l):
+    list_a = l
     # copy list A to list B, list B as working list
-    listB = listA[:]
-    
-    # split merge from B to A, from 0 to n
-    top_down_split_merge(listB, 0, len(listB), listA)
+    list_b = list_a[:]
 
-    return 
+    # split merge from B to A, from 0 to n
+    top_down_split_merge(list_b, 0, len(list_b), list_a)
+
+    return
+
 
 #
 # func: gen_rand_list(numbers of random )
 # desc: generate random number of list with bubble sort algorithm
 # para: number - how many numbers of random will be generated
 #
-def gen_rand_list( number ):
-	a = []									# null list
-	for i in range( number ):
-		a.append( randrange(number * 2) )	# range will be 0 to 2 * number
+def gen_rand_list(number):
+    a = []  # null list
+    for i in range(number):
+        a.append(randrange(number * 2))  # range will be 0 to 2 * number
 
-	return a
+    return a
 
 
 # test program
 if __name__ == '__main__':
-	n = eval(input("input numbers of rand you want to generate:"))
-	l = gen_rand_list( n )
-	print(l)
+    n = eval(input("input numbers of rand you want to generate:"))
+    l = gen_rand_list(n)
+    print(l)
 
-	#bubble_sort( l )
-	#insertion_sort( l )
-	#insertion_sort_R( l, l.count() )
-	merge_sort( l )
-	print(l)
-
+    # bubble_sort( l )
+    # insertion_sort( l )
+    # insertion_sort_R( l, l.count() )
+    merge_sort(l)
+    print(l)
